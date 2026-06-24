@@ -43,9 +43,11 @@ jobs:
           cd magiskboot
           chmod +x ./build.py
           ./build.py ndk
-          export RUSTFLAGS="-C target-feature=-avx,-avx2"
-          export CFLAGS="-mno-avx -mno-avx2"
-          export CXXFLAGS="-mno-avx -mno-avx2"
+          export CARGO_TARGET_X86_64_LINUX_ANDROID_RUSTFLAGS="-C target-feature=-avx,-avx2"
+          export CARGO_TARGET_I686_LINUX_ANDROID_RUSTFLAGS="-C target-feature=-avx,-avx2"
+          export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS="-C target-feature=-avx,-avx2"
+          export CFLAGS="-mno-avx -mno-avx2 -Wno-unknown-target-option"
+          export CXXFLAGS="-mno-avx -mno-avx2 -Wno-unknown-target-option"
           ./build.py -v native
           cp -p ./native/out/x86_64/magiskboot $GITHUB_WORKSPACE/build_workdir/out/x86_64/
           cp -p ./native/out/x86/magiskboot $GITHUB_WORKSPACE/build_workdir/out/x86/
