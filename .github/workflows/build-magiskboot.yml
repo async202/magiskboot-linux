@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out
         uses: actions/checkout@v3
@@ -63,19 +65,17 @@ jobs:
           rm -rf ./x86_64 ./x86 ./arm64-v8a ./armeabi-v7a
           mv -f ./out/* .
           rm -rf ./out
-          {
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add .
-            git commit -m "$(date "+%Y-%m-%d %H:%M:%S") UTC" -a
-            if [ $? -eq 0 ]; then
-                date >> RunDate.txt
-                git commit -m "$(date "+%Y-%m-%d %H:%M:%S")" -a
-                git push
-            else
-                echo No Update
-            fi
-          } || {
-            echo Execution Failed >RunDate.txt
-            exit 1
-          }
+          
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          
+          date >> RunDate.txt
+          
+          git add .
+          
+          if ! git diff-index --quiet HEAD --; then
+              git commit -m "$(date "+%Y-%m-%d %H:%M:%S") UTC"
+              git push
+          else
+              echo "No updates detected."
+          fi
