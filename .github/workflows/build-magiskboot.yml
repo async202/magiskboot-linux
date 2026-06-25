@@ -49,10 +49,10 @@ jobs:
           export CARGO_TARGET_X86_64_LINUX_ANDROID_RUSTFLAGS="-C target-cpu=x86-64"
           export CARGO_TARGET_I686_LINUX_ANDROID_RUSTFLAGS="-C target-cpu=pentium4"
           export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS="-C target-cpu=x86-64"
-          export RUSTFLAGS="-C target-cpu=x86-64"
-
-          export CFLAGS="-march=x86-64 -mtune=generic"
-          export CXXFLAGS="-march=x86-64 -mtune=generic"
+          export CFLAGS_x86_64_linux_android="-march=x86-64 -mtune=generic"
+          export CXXFLAGS_x86_64_linux_android="-march=x86-64 -mtune=generic"
+          export CFLAGS_i686_linux_android="-march=pentium4 -mtune=generic"
+          export CXXFLAGS_i686_linux_android="-march=pentium4 -mtune=generic"
           
           ./build.py -v native
           cp -p ./native/out/x86_64/magiskboot $GITHUB_WORKSPACE/build_workdir/out/x86_64/
